@@ -17,7 +17,10 @@ def eliminar_row_format_fixed(filename):
 for filename in os.listdir(directorio):
     if filename.endswith(".sql"):
         file_path = os.path.join(directorio, filename)
-        eliminar_row_format_fixed(file_path)
-        print(f"Se ha eliminado la línea 'ROW_FORMAT=FIXED' en el archivo {filename}")
+        try:
+            eliminar_row_format_fixed(file_path)
+            print(f"Se ha eliminado la línea 'ROW_FORMAT=FIXED' en el archivo {filename}")
+        except:
+            print(f"Error eliminado la línea 'ROW_FORMAT=FIXED' en el archivo {filename}")
 
 print("Proceso completado.")
