@@ -1,7 +1,9 @@
+"""Delete all backups"""
 import os
 import re
 
 class SQLFileProcessor:
+    """Class to work with backups"""
     def __init__(self, directory):
         """
         Initializes the SQLFileProcessor object.
@@ -27,6 +29,7 @@ class SQLFileProcessor:
             print(f"Error trying delete 'ROW_FORMAT=FIXED' into the file {filename}: {e}")
 
     def process_sql_files(self):
+        """Search all files"""
         for filename in os.listdir(self.directory):
             if filename.endswith(".sql"):
                 file_path = os.path.join(self.directory, filename)

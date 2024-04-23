@@ -1,6 +1,10 @@
+"""Backup generator and downloader"""
 import subprocess
 
 class BackupDownloader:
+    """
+    Class to generate a backup of Database
+    """
     def __init__(self, config):
         """
         Initializes the BackupDownloader object.
@@ -23,7 +27,12 @@ class BackupDownloader:
         backup_file = f'backup_{db_name}.sql'
 
         try:
-            dump_command = f"mysqldump -h {self.mysql_host} -u {self.mysql_user} -p{self.password} --databases {db_name} --events --routines --no-create-db --skip-add-locks --complete-insert --tables > backups/{backup_file}"
+            dump_command = (
+                f"mysqldump -h {self.mysql_host} -u {self.mysql_user} "
+                f"-p{self.password} --databases {db_name} --events --routines "
+                f"--no-create-db --skip-add-locks --complete-insert --tables > "
+                f"backups/{backup_file}"
+            )
             subprocess.run(dump_command, shell=True, check=True)
         except subprocess.CalledProcessError as e:
             print(f"Error trying create copy'{db_name}': {e}")

@@ -1,3 +1,4 @@
+"""Orchester of all modules"""
 from download_backup import BackupDownloader
 from generate_database import MySQLMigration
 from delete_parameters_backups import SQLFileProcessor
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     generator = MySQLMigration(config=config)
 
     processor = SQLFileProcessor(directory="backups")
-    
+
     print("Classes initializer")
     for db in list_databases_to_migrate:
         print(f"Start database {db} ")
