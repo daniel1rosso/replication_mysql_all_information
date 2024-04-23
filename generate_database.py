@@ -3,11 +3,19 @@ from list_name_databases import list_databases_to_migrate
 
 class MySQLMigration:
     def __init__(self, config):
+        """
+        Initializes the MySQLMigration object.
+
+        Args:
+            config (dict): Configuration for database connection.
+                Requires 'password', 'mysql_host', and 'mysql_user'.
+        """
         self.config = config
         self.conn = None
         self.cursor = None
 
     def connect(self):
+        """Establishes connection to the database."""
         try:
             self.conn = mysql.connector.connect(**self.config)
             self.cursor = self.conn.cursor()
@@ -16,6 +24,7 @@ class MySQLMigration:
             print("Houston, we have a error: {}".format(err))
 
     def create_schemas(self):
+        """Creates schemas in the database."""
         if not self.conn or not self.cursor:
             print("Error: Don't have connection.")
             return
@@ -28,6 +37,7 @@ class MySQLMigration:
                 print("Error creating schema '{}': {}".format(schema_name, err))
 
     def close_connection(self):
+        """Closes connection to the database."""
         if self.cursor:
             self.cursor.close()
         if self.conn:

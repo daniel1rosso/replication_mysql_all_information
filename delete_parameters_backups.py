@@ -3,9 +3,16 @@ import re
 
 class SQLFileProcessor:
     def __init__(self, directory):
+        """
+        Initializes the SQLFileProcessor object.
+
+        Args:
+            directory (str): Directory where SQL files are located.
+        """
         self.directory = directory
 
     def eliminar_row_format_fixed(self, filename):
+        """Processes SQL files to remove specific parameters."""
         try:
             with open(filename, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
