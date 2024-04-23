@@ -1,20 +1,18 @@
-from list_name_databases import list_databases_to_migrate
 import subprocess
 
-password = ""
-mysql_host = ""
-mysql_user = ""
+class BackupDownloader:
+    def __init__(self, config):
+        self.mysql_host = config.get("mysql_host")
+        self.mysql_user = config.get("mysql_user")
+        self.password = config.get("password")
 
-for db_name in list_databases_to_migrate:
-    backup_file = f'backup_{db_name}.sql'
+    def create_backup(self, db_name):
+        backup_file = f'backup_{db_name}.sql'
 
-    # Check if MariaDB version supports --grants
-    try:
-        # Attempt using --grants if possible
-        dump_command = f"mysqldump -h {mysql_host} -u {mysql_user} -p{password} --databases {db_name} --events --routines --no-create-db --skip-add-locks --complete-insert --tables > backups/{backup_file}"
-        subprocess.run(dump_command, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error using --grants: {e}")
-        # Fallback: Export schema without grants
-        dump_command = f"mysqldump -h {mysql_host} -u {mysql_user} -p{password} --databases {db_name} --events --routines --no-create-db --skip-add-lock --skip-disable-innodb-engines --complete-insert --tables > backups/{backup_file}"
-        subprocess.run(dump_command, shell=True)
+        try:
+            dump_command = f"mysqldump -h {self.mysql_host} -u {self.mysql_user} -p{self.password} --databases {db_name} --events --routines --no-create-db --skip-add-locks --complete-insert --tables > backups/{backup_file}"
+            subprocess.run(dump_command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error al crear la copia de seguridad de '{db_name}': {e}")
+        else:
+            print(f"Copia de seguridad de '{db_name}' creada con éxito")
