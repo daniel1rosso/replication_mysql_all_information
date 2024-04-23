@@ -1,28 +1,33 @@
 import os
 import re
 
-# Directorio que contiene los archivos .sql
-directorio = "backups"
+class SQLFileProcessor:
+    def __init__(self, directory):
+        """
+        Initializes the SQLFileProcessor object.
 
-# Función para escanear los archivos .sql en el directorio y eliminar la parte de la línea que contiene ROW_FORMAT=FIXED
-def eliminar_row_format_fixed(filename):
-    with open(filename, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
+        Args:
+            directory (str): Directory where SQL files are located.
+        """
+        self.directory = directory
 
-    with open(filename, 'w', encoding='utf-8') as file:
-        for line in lines:
-            # Utilizamos expresión regular para encontrar y reemplazar ROW_FORMAT=FIXED
-            line = re.sub(r'ROW_FORMAT=FIXED', '', line)
-            file.write(line)
-
-# Escanea todos los archivos .sql en el directorio
-for filename in os.listdir(directorio):
-    if filename.endswith(".sql"):
-        file_path = os.path.join(directorio, filename)
+    def eliminar_row_format_fixed(self, filename):
+        """Processes SQL files to remove specific parameters."""
         try:
-            eliminar_row_format_fixed(file_path)
-            print(f"Se ha eliminado 'ROW_FORMAT=FIXED' en el archivo {filename}")
-        except Exception as e:
-            print(f"Error eliminando 'ROW_FORMAT=FIXED' en el archivo {filename}: {e}")
+            with open(filename, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
 
-print("Proceso completado.")
+            with open(filename, 'w', encoding='utf-8') as file:
+                for line in lines:
+                    line = re.sub(r'ROW_FORMAT=FIXED', '', line)
+                    file.write(line)
+
+            print(f"Deleted 'ROW_FORMAT=FIXED' into the file {filename}")
+        except Exception as e:
+            print(f"Error trying delete 'ROW_FORMAT=FIXED' into the file {filename}: {e}")
+
+    def process_sql_files(self):
+        for filename in os.listdir(self.directory):
+            if filename.endswith(".sql"):
+                file_path = os.path.join(self.directory, filename)
+                self.eliminar_row_format_fixed(file_path)
