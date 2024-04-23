@@ -25,7 +25,7 @@ class SQLFileProcessor:
                     file.write(line)
 
             print(f"Deleted 'ROW_FORMAT=FIXED' into the file {filename}")
-        except Exception as e:
+        except FileNotFoundError as e:
             print(f"Error trying delete 'ROW_FORMAT=FIXED' into the file {filename}: {e}")
 
     def process_sql_files(self):
