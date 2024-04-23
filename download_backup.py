@@ -13,6 +13,6 @@ class BackupDownloader:
             dump_command = f"mysqldump -h {self.mysql_host} -u {self.mysql_user} -p{self.password} --databases {db_name} --events --routines --no-create-db --skip-add-locks --complete-insert --tables > backups/{backup_file}"
             subprocess.run(dump_command, shell=True, check=True)
         except subprocess.CalledProcessError as e:
-            print(f"Error al crear la copia de seguridad de '{db_name}': {e}")
+            print(f"Error trying create copy'{db_name}': {e}")
         else:
-            print(f"Copia de seguridad de '{db_name}' creada con éxito")
+            print(f"Security copy '{db_name}' created successful")
