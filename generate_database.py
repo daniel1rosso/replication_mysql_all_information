@@ -25,18 +25,17 @@ class MySQLMigration:
         except mysql.connector.Error as err:
             print(f"Houston, we have a error: {err}")
 
-    def create_schemas(self):
+    def create_schemas(self,db_name):
         """Creates schemas in the database."""
         if not self.conn or not self.cursor:
             print("Error: Don't have connection.")
             return
 
-        for schema_name in list_databases_to_migrate:
-            try:
-                self.cursor.execute(f"CREATE SCHEMA {schema_name}")
-                print(f"Schema '{schema_name}' created successful")
-            except mysql.connector.Error as err:
-                print(f"Error creating schema '{schema_name}': {err}")
+        try:
+            self.cursor.execute(f"CREATE SCHEMA {db_name}")
+            print(f"Schema '{db_name}' created successful")
+        except mysql.connector.Error as err:
+            print(f"Error creating schema '{db_name}': {err}")
 
     def close_connection(self):
         """Closes connection to the database."""
