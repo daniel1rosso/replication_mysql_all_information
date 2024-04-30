@@ -1,6 +1,5 @@
 """Creator of databases"""
 import mysql.connector
-from list_name_databases import list_databases_to_migrate
 
 class MySQLMigration:
     """Class responsable of connect and create schemas"""
