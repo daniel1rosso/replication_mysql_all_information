@@ -3,7 +3,7 @@ import mysql.connector
 
 class MySQLMigration:
     """Class responsable of connect and create schemas"""
-    def __init__(self, config):
+    def __init__(self, conn, cursor):
         """
         Initializes the MySQLMigration object.
 
@@ -11,18 +11,8 @@ class MySQLMigration:
             config (dict): Configuration for database connection.
                 Requires 'password', 'mysql_host', and 'mysql_user'.
         """
-        self.config = config
-        self.conn = None
-        self.cursor = None
-
-    def connect(self):
-        """Establishes connection to the database."""
-        try:
-            self.conn = mysql.connector.connect(**self.config)
-            self.cursor = self.conn.cursor()
-            print("Connection to MySQL successful")
-        except mysql.connector.Error as err:
-            print(f"Houston, we have a error: {err}")
+        self.conn = conn
+        self.cursor = cursor
 
     def create_schemas(self,db_name):
         """Creates schemas in the database."""
@@ -36,10 +26,4 @@ class MySQLMigration:
         except mysql.connector.Error as err:
             print(f"Error creating schema '{db_name}': {err}")
 
-    def close_connection(self):
-        """Closes connection to the database."""
-        if self.cursor:
-            self.cursor.close()
-        if self.conn:
-            self.conn.close()
-            print("Connection closed")
+

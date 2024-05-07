@@ -1,6 +1,6 @@
 """Module to restore db"""
 import subprocess
-
+##TODO: We should refactor that class because we need to use mysel.connector
 class DatabaseRestorer:
     """Class to restore databases."""
     def __init__(self, config):
